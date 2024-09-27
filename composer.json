@@ -1,0 +1,12 @@
+{
+    "name": "noah/buscador-cursos-alura",
+    "description": "Primeiros passos com composer buscando cursos no site da alura",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Lucas",
+            "email": "lucaslksleite@gmail.com"
+        }
+    ],
+    "require": {}
+}
