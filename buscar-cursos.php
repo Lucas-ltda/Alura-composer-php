@@ -1,27 +1,23 @@
 <?php
 
-require 'vendor/autoload.php';
-
-
-// importando o Guzzle 
+require 'vendor/autoload.php';  // O autoload do Composer já carrega todas as classes
+require 'BuscadorDeCursos/src/Buscador.php';
+// Importando o Guzzle e o DomCrawler
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use Aluracomposer\BuscadorDeCursos\Buscador; 
 
-$client = new Client( ['verify' => false]);
+$client = new Client([
+    'base_uri' => 'https://www.alura.com.br',
+    'verify' => false
+],);
+$crawler = new Crawler();
+$buscador = new Buscador($client, $crawler);
 
-$resposta = $client -> request ('GET',  'https://www.alura.com.br/cursos-online-programacao/php');
+$cursos = $buscador->buscar('/cursos-online-programacao/php'); 
 
-
-$html = $resposta ->getBody();
-
-$crawler = new Crawler($html);
-// $crawler -> addHtmlContent($html); as duas formas estão corretas para instarciar o crawler e indicar o seu conteudo
-
-$cursos = $crawler -> filter(selector: 'span.card-curso__nome');
-
-foreach ($cursos as $curso){
-    echo $curso -> textContent."\n";
+foreach ($cursos as $curso) {
+    echo $curso . "\n";
 }
 
-var_dump(PHP_EOL);
-//PHP_EOL DEFINE O FIM DE UMA LINHA DA FORMA ADEQUADA DE ACORDO COM O SISTEMA OPERACIONAL EM QUESTÃO
+//var_dump(PHP_EOL);  PHP_EOL define o fim de linha corretamente
